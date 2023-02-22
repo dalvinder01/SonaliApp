@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "873940568613",
+    "firebase_url": "https://sonaliapp-cc317-default-rtdb.firebaseio.com",
+    "project_id": "sonaliapp-cc317",
+    "storage_bucket": "sonaliapp-cc317.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873940568613:android:26307630e3900b2210cdcc",
+        "android_client_info": {
+          "package_name": "com.sonali"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "873940568613-at587qjr0bqfmqg37l1je6bctdr501ep.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXvct8OhRq-bUwB1qZglrULd7WJytoB3g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "873940568613-at587qjr0bqfmqg37l1je6bctdr501ep.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "873940568613-i9hnvvg2ca7hbamj3jg5cannlr4rbht3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sonali"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
