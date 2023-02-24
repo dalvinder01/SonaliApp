@@ -143,13 +143,13 @@ export default StyleSheet.create({
   flex: 1,
   justifyContent: 'center',
   alignItems: 'center',
-  backgroundColor:Colors.transparent
+  backgroundColor: Colors.transparent
  },
  modalView: {
-//   flexDirection: 'row',
+  //   flexDirection: 'row',
   justifyContent: 'center',
-  alignItems:'center',
-  width:'95%',
+  alignItems: 'center',
+  width: '95%',
   padding: moderateScale(12),
   backgroundColor: Colors.white,
   shadowColor: '#000',
@@ -169,12 +169,27 @@ export default StyleSheet.create({
   alignSelf: 'center',
   backgroundColor: Colors.pink,
   borderRadius: 7,
-  marginTop:'5%'
+  marginTop: '5%'
  },
 
  textStyle: {
   color: 'white',
   fontFamily: Fonts.montserratMedium,
   textAlign: 'center'
+ },
+ participateBtn: {
+  width: moderateScale(110),
+  padding: 5,
+  justifyContent: 'center',
+  alignItems: 'center',
+  left: 13,
+  marginTop: '2%',
+  borderRadius: 5,
+  backgroundColor: Colors.colorBlue
+ },
+ participateText: {
+  color: Colors.white,
+  fontSize: 10,
+  fontFamily: Fonts.ralewayRegular
  }
 });

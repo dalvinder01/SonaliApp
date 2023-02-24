@@ -30,7 +30,7 @@ export default StyleSheet.create({
  userImage: {
   width: moderateScale(130),
   height: moderateScale(130),
-  borderRadius: moderateScale(65),
+  borderRadius: moderateScale(100),
  },
 
  cameraView: {
@@ -82,7 +82,8 @@ export default StyleSheet.create({
   height: 30,
   alignItems: 'center',
   padding: 5,
-  fontFamily: Fonts.ralewayRegular,
+  fontFamily: Fonts.montserratRegular,
+  color:Colors.black
  },
  policyText: {
   fontSize: 16,

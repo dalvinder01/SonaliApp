@@ -15,13 +15,13 @@ import Header from '../../Component/Header/Header';
 import { useNavigation } from '@react-navigation/native';
 import Colors from '../../Constants/Colors';
 import { createMeeting, validateMeeting } from '../../Services/StreamApi';
-import Fonts from '../../Constants/Fonts';
 import moment from 'moment';
-import { moderateScale } from 'react-native-size-matters';
 import ParticipateView from '../../Component/ParticipateView/ParticipateView';
 import EventButton from '../../Component/EventButton/EventButton';
-import { setAdjustNothing,setAdjustResize } from 'rn-android-keyboard-adjust';
-
+import { setAdjustNothing } from 'rn-android-keyboard-adjust';
+import { getUserType } from '../../Services/LocalStorage';
+import CountDown from 'react-native-countdown-component';
+import { ARTIST, DJ } from '../../Constants/Type';
 export default function Event() {
  const navigation = useNavigation();
  const [isStatus, SetIsStatus] = useState(0);
@@ -30,6 +30,8 @@ export default function Event() {
  const [modalVisible, setModalVisible] = useState(false);
  const [isJoined, setJoined] = useState(false);
  const [loader, setLoader] = useState(false);
+ const [userType, setuserType] = useState('');
+
  const DATA = [
   {
    id: '1',
@@ -45,8 +47,14 @@ export default function Event() {
   }
  ];
  const [totalDuration, setTotalDuration] = useState(0);
-
+ const checkUserType = () => {
+  getUserType().then((type) => {
+   console.warn('file typy user', type);
+   setuserType(type);
+  });
+ };
  useEffect(() => {
+  checkUserType();
   // Coundown timer for a given expiry date-time
   let date = moment().format('YYYY-MM-DD hh:mm:ss');
 
@@ -119,43 +127,36 @@ export default function Event() {
         Presented By:-
        </Text>
        <View style={{ marginTop: '4%' }}>
-        {/* <CountDown
-      style={{padding:4 }}
-       digitStyle={{ backgroundColor: Colors.pink }}
-       digitTxtStyle={{ color: Colors.white }}
-       separatorStyle={{ backgroundColor:'red' }}
-       until={totalDuration}
-       //duration of countdown in seconds
-       timetoShow={('H', 'M')}
-       //formate to show
-       onFinish={() => alert('finished')}
-       //on Finish call
-       onPress={() => alert('hello')}
-       //on Press call
-       size={9}
-      /> */}
+        {userType == DJ ? (
+         <TouchableOpacity
+          onPress={() => setModalVisible(true)}
+          style={Styles.participateBtn}>
+          <Text style={Styles.participateText}>Tap To Participate</Text>
+         </TouchableOpacity>
+        ) : userType == ARTIST ? (
+         <TouchableOpacity
+          onPress={() => setModalVisible(true)}
+          style={Styles.participateBtn}>
+          <Text style={Styles.participateText}>Tap To Participate</Text>
+         </TouchableOpacity>
+        ) : (
+         <CountDown
+          style={{ padding: 4 }}
+          digitStyle={{ backgroundColor: Colors.pink }}
+          digitTxtStyle={{ color: Colors.white }}
+          separatorStyle={{ backgroundColor: 'red' }}
+          until={totalDuration}
+          //duration of countdown in seconds
+          timetoShow={('H', 'M')}
+          //formate to show
+          onFinish={() => alert('finished')}
+          //on Finish call
+          onPress={() => alert('hello')}
+          //on Press call
+          size={9}
+         />
+        )}
        </View>
-       <TouchableOpacity
-        onPress={() => setModalVisible(true)}
-        style={{
-         width: moderateScale(110),
-         padding: 5,
-         justifyContent: 'center',
-         alignItems: 'center',
-         left: 13,
-         marginTop: '2%',
-         borderRadius: 5,
-         backgroundColor: Colors.colorBlue
-        }}>
-        <Text
-         style={{
-          color: Colors.white,
-          fontSize: 10,
-          fontFamily: Fonts.ralewayRegular
-         }}>
-         Tap To Participate
-        </Text>
-       </TouchableOpacity>
       </View>
      </View>
     </View>

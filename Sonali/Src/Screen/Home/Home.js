@@ -26,6 +26,7 @@ import Fonts from '../../Constants/Fonts';
 import messaging from '@react-native-firebase/messaging';
 import notifee, { AndroidImportance } from '@notifee/react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import { PRESENTER } from '../../Constants/Type';
 
 export default function Home() {
  const [userType, setuserType] = useState('');
@@ -59,9 +60,6 @@ export default function Home() {
  }
  const getFCMToken = async () => {
   try {
-   await messaging().registerDeviceForRemoteMessages();
-   console.log('Device registered for remote messages');
-
    // Wait for registration to complete before getting the initial FCM token
    messaging().onTokenRefresh(async (token) => {
     console.log('FCM token refreshed: ', token);
@@ -220,11 +218,15 @@ export default function Home() {
       <TouchableOpacity
        style={{ padding: 4 }}
        activeOpacity={0.5}
-       onPress={() => navigation.navigate('Channels')}>
+       onPress={() =>
+        userType == PRESENTER
+         ? navigation.navigate('ChannelDetail')
+         : navigation.navigate('Channels')
+       }>
        <Image style={Styles.earIcon} source={HEADPHONE} />
       </TouchableOpacity>
      </View>
-     {presenterTopView()}
+     {userType == PRESENTER ? presenterTopView() : null}
      <Text style={Styles.listHeading}>Live Events</Text>
      <View style={{ width: '100%', alignSelf: 'center' }}>
       <FlatList

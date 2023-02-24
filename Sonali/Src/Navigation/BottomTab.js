@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
  SafeAreaView,
  Text,
@@ -30,6 +30,7 @@ import ManageDjSongs from '../Screen/ManageDjSongs/ManageDjSongs';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 const BottomTabNavigator = () => {
+ 
  return (
   <KeyboardAvoidingView
    behavior={Platform.OS === 'ios' ? 'padding' : null}

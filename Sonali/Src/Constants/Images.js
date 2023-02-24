@@ -63,3 +63,4 @@ export const EVENTDJ = require('../Images/newDj.png');
 export const EVENTPRESENTER = require('../Images/eventSpeaker.png');
 export const EVENTJUDGE = require('../Images/eventJudge.png');
 export const EVENTARTIST = require('../Images/eventMic.png');
+export const LOADER = require('../Images/newLoader.png');

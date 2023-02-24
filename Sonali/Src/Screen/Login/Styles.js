@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { moderateScale } from 'react-native-size-matters';
 import Colors from '../../Constants/Colors';
 import Fonts from '../../Constants/Fonts';
@@ -107,7 +107,9 @@ export default StyleSheet.create({
  loginDescription: {
   fontSize: 13,
   width: moderateScale(268),
-  fontFamily: Fonts.ralewayRegular
+  fontFamily: Fonts.ralewayRegular,
+  color: Colors.black,
+  marginLeft: Platform.OS == 'android' ? 12 : 0
  },
  useText: {
   color: Colors.pink,

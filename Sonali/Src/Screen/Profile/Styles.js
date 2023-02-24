@@ -1,11 +1,11 @@
-import {StyleSheet} from 'react-native';
-import {moderateScale} from 'react-native-size-matters';
+import { StyleSheet } from 'react-native';
+import { moderateScale } from 'react-native-size-matters';
 import Colors from '../../Constants/Colors';
 import Fonts from '../../Constants/Fonts';
 export default StyleSheet.create({
  container: {
   flex: 1,
-  backgroundColor: Colors.white,
+  backgroundColor: Colors.white
  },
 
  profileView: {
@@ -16,21 +16,21 @@ export default StyleSheet.create({
   backgroundColor: Colors.white,
   elevation: 3,
   shadowColor: '#000',
-  shadowOffset: {width: 0, height: 1},
+  shadowOffset: { width: 0, height: 1 },
   shadowOpacity: 0.2,
   shadowRadius: 3,
   justifyContent: 'center',
   alignItems: 'center',
-  marginTop: '14%',
+  marginTop: '14%'
  },
  profileIcon: {
   width: '35%',
-  height: moderateScale(55),
+  height: moderateScale(55)
  },
  userImage: {
   width: moderateScale(130),
   height: moderateScale(130),
-  borderRadius: moderateScale(65),
+  borderRadius: moderateScale(65)
  },
 
  cameraView: {
@@ -41,7 +41,7 @@ export default StyleSheet.create({
   backgroundColor: Colors.pink,
   elevation: 3,
   shadowColor: '#000',
-  shadowOffset: {width: 0, height: 1},
+  shadowOffset: { width: 0, height: 1 },
   shadowOpacity: 0.1,
   shadowRadius: 2,
   justifyContent: 'center',
@@ -49,23 +49,23 @@ export default StyleSheet.create({
   position: 'absolute',
   bottom: 1,
   alignSelf: 'flex-end',
-  right: moderateScale(12),
+  right: moderateScale(12)
  },
  cameraIcon: {
   width: moderateScale(25),
   height: moderateScale(25),
-  tintColor: Colors.white,
+  tintColor: Colors.white
  },
  inputIcon: {
   width: moderateScale(22),
-  height: moderateScale(22),
+  height: moderateScale(22)
  },
  inputView: {
   width: '95%',
   backgroundColor: Colors.white,
   elevation: 4,
   shadowColor: '#000',
-  shadowOffset: {width: 0, height: 1},
+  shadowOffset: { width: 0, height: 1 },
   shadowOpacity: 0.2,
   shadowRadius: 3,
   padding: 9,
@@ -74,7 +74,7 @@ export default StyleSheet.create({
   marginTop: '11%',
   flexDirection: 'row',
   justifyContent: 'space-between',
-  alignItems: 'center',
+  alignItems: 'center'
  },
  inputStyle: {
   width: '100%',
@@ -82,34 +82,35 @@ export default StyleSheet.create({
   height: 30,
   alignItems: 'center',
   padding: 5,
-  color:Colors.black,
-  fontFamily: Fonts.ralewayRegular,
+  color: Colors.black,
+  fontFamily: Fonts.montserratRegular
  },
  policyText: {
   fontSize: 16,
   color: Colors.black,
   marginLeft: '4%',
-  fontFamily: Fonts.montserratRegular,
+  fontFamily: Fonts.montserratRegular
  },
  logOutBtn: {
   width: '90%',
   padding: 13,
   justifyContent: 'center',
   alignItems: 'center',
- backgroundColor:Colors.red,
+  backgroundColor: Colors.red,
   alignSelf: 'center',
-  borderRadius: 12,
-//   marginTop: '46%',
+  borderRadius: 12
+  //   marginTop: '46%',
  },
  btnText: {
   color: Colors.white,
-  fontSize: 15,
+  fontSize: 15
  },
+ 
  menuIcon: {
   width: moderateScale(20),
-  height: moderateScale(20),
+  height: moderateScale(20)
  },
- editBtn:{
+ editBtn: {
   width: moderateScale(50),
   padding: 5,
   justifyContent: 'center',
@@ -118,13 +119,13 @@ export default StyleSheet.create({
   alignSelf: 'flex-end',
   position: 'absolute',
   top: '5%',
-  right:12,
-  borderRadius:5
+  right: 12,
+  borderRadius: 5
  },
- editText:{
+ editText: {
   color: Colors.white,
   fontFamily: Fonts.montserratMedium,
   fontSize: 13,
-  textAlign: 'center',
+  textAlign: 'center'
  }
 });

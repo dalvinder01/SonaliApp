@@ -9,7 +9,6 @@ import SplashScreen from './Src/Component/SplashScreen';
 import { ToastProvider } from 'react-native-toast-notifications'
 export default function App() {
  const [showSplash, setShowSplah] = useState(true);
- const navigation = useNavigation();
  useEffect(() => {
   var firebaseConfig = {
    apiKey: 'AIzaSyCXvct8OhRq-bUwB1qZglrULd7WJytoB3g',
@@ -32,6 +31,7 @@ export default function App() {
   return <SplashScreen />;
  } else {
   return (
+    
    <Provider store={store}>
     <ToastProvider>
     <NavigationContainer>

@@ -7,7 +7,9 @@ import {
  TouchableOpacity,
  TextInput,
  ScrollView,
- Alert
+ Alert,
+ DeviceEventEmitter,
+ ActivityIndicator
 } from 'react-native';
 import Styles from './Styles';
 import {
@@ -26,15 +28,44 @@ import Colors from '../../Constants/Colors';
 import ImagePicker from 'react-native-image-crop-picker';
 import { setAdjustNothing } from 'rn-android-keyboard-adjust';
 import { moderateScale } from 'react-native-size-matters';
-export default function EditProfile() {
+import { useSelector, useDispatch } from 'react-redux';
+import { editProfile } from '../../Modules/editProfile';
+import Loader from '../../Component/Loader/Loader';
+import CountryCode from '../../Config/CountryCode';
+import { getCountry } from '../../Modules/getCountry';
+export default function EditProfile(props) {
+ console.warn('check params 123', props.route.params.photo);
  const navigation = useNavigation();
- const [name, SetName] = useState('');
- const [phone, SetPhone] = useState('');
- const [mail, SetMail] = useState('');
+ const [name, SetName] = useState(props.route.params.name);
+ const [phone, SetPhone] = useState(props.route.params.phone);
+ const [mail, SetMail] = useState(props.route.params.email);
  const [avatarSource, setAvatarSource] = useState('');
+ const [imageSource, setImageSource] = useState(props.route.params.photo);
  const [uriResponse, seturiResponse] = useState('');
- const [videoSource, setVideoSource] = useState('');
+ const { status } = useSelector((state) => state.editProfile);
+ const [countryData, setCountryData] = useState(CountryCode);
+ const [code, setCode] = useState('');
  const inputRef = useRef(null);
+ const numberRef = useRef(null);
+ const emailRef = useRef(null);
+ const dispatch = useDispatch();
+ const updateProfile = () => {
+  let data = {
+   name: name,
+   email: mail,
+   number: phone,
+   photo: uriResponse
+  };
+  dispatch(editProfile(data)).then((response) => {
+   console.warn('res screen', response.payload);
+   if (response.payload.success == true) {
+    DeviceEventEmitter.emit('profileUpdated', {
+     Signal: true
+    });
+    navigation.goBack();
+   }
+  });
+ };
  const _pickImagefromCamera = () => {
   ImagePicker.openCamera({
    width: 400,
@@ -44,7 +75,7 @@ export default function EditProfile() {
    freeStyleCropEnabled: true
   }).then((response) => {
    let source = { uri: response.path };
-   setAvatarSource(source);
+   setAvatarSource(source.path);
    seturiResponse(response.path);
    console.warn('mkm', avatarSource);
    console.warn('uri', uriResponse);
@@ -58,29 +89,15 @@ export default function EditProfile() {
    includeBase64: true,
    freeStyleCropEnabled: true
   }).then((response) => {
-   console.warn('response', response.path);
+   console.warn('response image', response.path);
    let source = response.path;
    setAvatarSource(source);
    seturiResponse(response.path);
-   console.warn('mkm', source);
-   console.warn('uri', uriResponse);
+   console.warn('mkm', avatarSource);
+   //    console.warn('uri', uriResponse);
   });
  };
- const _pickVideo = () => {
-  ImagePicker.openPicker({
-   mediaType: 'video',
-   duration: 200
-  }).then((response) => {
-   let source = response.path;
-   // let source = {url: response.path};
-   console.warn('video result ', source);
-   //  {
-   //   response.duration <= 20000
-   //    ? setVideoSource(source)
-   //    : Alert.alert('Choose video duration less than 20 sec');
-   //  }
-  });
- };
+
  const customAlert = () => {
   Alert.alert(
    '',
@@ -100,19 +117,26 @@ export default function EditProfile() {
    { cancelable: false }
   );
  };
- const handleSendVideo = async () => {
-  const url = videoSource;
-  const lastSlashIndex = url.lastIndexOf('/');
-  const path = url.substring(0, lastSlashIndex + 1); // 'file:///data/user/0/com.Sonali/cache/react-native-image-crop-picker/'
-  const fileName = url.substring(lastSlashIndex + 1);
-  console.warn('video path', path);
-  console.warn('filename', fileName);
+ const codeData = () => {
+  dispatch(getCountry()).then((response) => {
+   console.warn('countryres', response.payload.country_code);
+   let userCode = '';
+   for (let index = 0; index < countryData.length; index++) {
+    const element = countryData[index];
+    userCode = element.value;
+    if (element.code === response.payload.country_code) {
+     setCode(userCode);
+    }
+   }
+  });
  };
  useEffect(() => {
+  codeData();
   setAdjustNothing();
  }, []);
  return (
   <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
+   {status == 'loading' ? <Loader /> : null}
    <Header
     arrowTrue={true}
     onArrowPress={() => navigation.goBack()}
@@ -123,8 +147,8 @@ export default function EditProfile() {
    <ScrollView showsVerticalScrollIndicator={false}>
     <View style={Styles.container}>
      <View style={Styles.profileView}>
-      {avatarSource == '' ? (
-       <Image style={Styles.profileIcon} source={PROFILE} />
+      {!uriResponse ? (
+       <Image style={Styles.userImage} source={{ uri: imageSource }} />
       ) : (
        <Image style={Styles.userImage} source={{ uri: uriResponse }} />
       )}
@@ -144,42 +168,55 @@ export default function EditProfile() {
         ref={inputRef}
         // autoFocus={true}
         allowFontScaling={false}
-        placeholder="Name"
+        value={name}
+        // placeholder="Name"
         placeholderTextColor={Colors.black}
         onChangeText={(text) => SetName(text)}
         style={Styles.inputStyle}
        />
       </View>
-      {/* <TouchableOpacity onPress={() => inputRef.current.focus()}>
-      <Image style={Styles.inputIcon} source={PENCIL} />
-      </TouchableOpacity> */}
-      <Image style={Styles.inputIcon} source={PENCIL} />
+      <TouchableOpacity onPress={() => inputRef.current.focus()}>
+       <Image style={Styles.inputIcon} source={PENCIL} />
+      </TouchableOpacity>
      </View>
      <View style={[Styles.inputView, { marginTop: '3%' }]}>
       <Image style={[Styles.inputIcon, { borderRadius: 15 }]} source={PHONE} />
+      {/* {code ? (
+       <Text style={Styles.codeText}>{code}</Text>
+      ) : (
+       <ActivityIndicator size={15} color={Colors.pink} />
+      )} */}
       <View style={{ width: '80%' }}>
        <TextInput
+        ref={numberRef}
         allowFontScaling={false}
+        value={phone}
         placeholder="Phone"
         placeholderTextColor={Colors.black}
         onChangeText={(text) => SetPhone(text)}
         style={Styles.inputStyle}
        />
       </View>
-      <Image style={Styles.inputIcon} source={PENCIL} />
+      <TouchableOpacity onPress={() => numberRef.current.focus()}>
+       <Image style={Styles.inputIcon} source={PENCIL} />
+      </TouchableOpacity>
      </View>
      <View style={[Styles.inputView, { marginTop: '3%' }]}>
       <Image style={[Styles.inputIcon, { borderRadius: 15 }]} source={MAIL} />
       <View style={{ width: '80%' }}>
        <TextInput
+        ref={emailRef}
         allowFontScaling={false}
+        value={mail}
         placeholder="E-mail"
         placeholderTextColor={Colors.black}
         onChangeText={(text) => SetMail(text)}
         style={Styles.inputStyle}
        />
       </View>
-      <Image style={Styles.inputIcon} source={PENCIL} />
+      <TouchableOpacity onPress={() => emailRef.current.focus()}>
+       <Image style={Styles.inputIcon} source={PENCIL} />
+      </TouchableOpacity>
      </View>
      <View>
       <View style={[Styles.inputView, { marginTop: '3%' }]}>
@@ -212,17 +249,15 @@ export default function EditProfile() {
        </View>
       </View>
      </View>
-     <TouchableOpacity
+     {/* <TouchableOpacity
       onPress={() => navigation.navigate('ResetPassword')}
       style={[Styles.inputView, { marginTop: '3%' }]}>
       <Text allowFontScaling={false} style={Styles.policyText}>
        Reset Password
       </Text>
-     </TouchableOpacity>
+     </TouchableOpacity> */}
      <View style={{ height: moderateScale(40) }} />
-     <TouchableOpacity
-      onPress={() => handleSendVideo()}
-      style={Styles.loginBtn}>
+     <TouchableOpacity onPress={() => updateProfile()} style={Styles.loginBtn}>
       <Text allowFontScaling={false} style={Styles.loginText}>
        Save
       </Text>

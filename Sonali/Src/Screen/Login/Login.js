@@ -11,32 +11,38 @@ import { useNavigation } from '@react-navigation/native';
 import Colors from '../../Constants/Colors';
 import { moderateScale } from 'react-native-size-matters';
 import AsyncStorage from '@react-native-community/async-storage';
+
 export default function Login() {
  const navigation = useNavigation();
  const [isButton, SetisButton] = useState(0);
  const [userType, SetuserType] = useState('');
+
  const goToPhone = () => {
   navigation.navigate('PhoneLogin');
   SetisButton(0);
  };
+
  const goToEmail = () => {
   navigation.navigate('LoginEmail');
   SetisButton(1);
  };
+
  const getTypeData = async () => {
   let type = await AsyncStorage.getItem('userType');
   console.warn('check', type);
   SetuserType(type);
   if (type !== '' && type !== null) {
-   navigation.navigate('Home');
-  } else {
-   console.warn('hlo');
+   setTimeout(() => {
+    navigation.navigate('Home');
+   }, 100);
   }
  };
+
  useEffect(() => {
   getTypeData();
  }, []);
- if (userType === '' && userType === null) {
+
+ if (!userType) {
   return (
    <SafeAreaView style={Styles.container}>
     <View style={Styles.loginContainer}>
@@ -44,10 +50,9 @@ export default function Login() {
       By Clicking log In, You are agree with our{' '}
       <Text allowFontScaling={false} style={Styles.useText}>
        terms of use
-      </Text>{' '}
-      and{' '}
+      </Text>
+      and
       <Text allowFontScaling={false} style={Styles.useText}>
-       {' '}
        Privacy policy.
       </Text>
      </Text>
